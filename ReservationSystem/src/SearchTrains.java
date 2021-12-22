@@ -158,6 +158,18 @@ public class SearchTrains extends JFrame {
 		
 		
 		getContentPane().add(scrollPane);
+		
+		JButton bookTicket = new JButton("Book Ticket");
+		bookTicket.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				BookTicket bt = new BookTicket();
+				bt.setVisible(true);
+				setVisible(false);
+			}
+		});
+		bookTicket.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
+		bookTicket.setBounds(51, 134, 105, 21);
+		getContentPane().add(bookTicket);
 	
 	}
 }

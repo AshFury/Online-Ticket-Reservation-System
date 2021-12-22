@@ -171,10 +171,13 @@ public class HomePage extends JFrame {
 					signinButtonClicked = true;
 					if (canSignIn) {
 					TIcket_Details.emailID = email;
-					TIcket_Details.name = "";
-					TIcket_Details td = new TIcket_Details();
-					td.setVisible(true);
+					TIcket_Details.name = "User Name";
+					
+					SearchTrains st = new SearchTrains();
+					st.setVisible(true);
 					setVisible(false);
+					//TIcket_Details td = new TIcket_Details();
+					//td.setVisible(true);
 				}
 				
 			}

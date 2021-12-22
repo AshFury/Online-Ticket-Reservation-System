@@ -42,6 +42,9 @@ public class TIcket_Details extends JFrame {
 	 * Create the frame.
 	 */
 	
+	public static String trainNumberValue;
+	public static String sourceLocation;
+	public static String destinationLocation;
 	public static String emailID;
 	public static String name;
 	
@@ -145,17 +148,17 @@ public class TIcket_Details extends JFrame {
 		lblNewLabel_2_1_1_1_1_1_1.setBounds(317, 484, 144, 44);
 		getContentPane().add(lblNewLabel_2_1_1_1_1_1_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("TN444XR");
-		lblNewLabel_1.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
-		lblNewLabel_1.setForeground(new Color(0, 0, 0));
-		lblNewLabel_1.setBounds(590, 127, 144, 39);
-		getContentPane().add(lblNewLabel_1);
+		JLabel ticketNumber = new JLabel("TN444XR");
+		ticketNumber.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
+		ticketNumber.setForeground(new Color(0, 0, 0));
+		ticketNumber.setBounds(590, 127, 144, 39);
+		getContentPane().add(ticketNumber);
 		
-		JLabel lblNewLabel_1_1 = new JLabel("PTIN556TUR");
-		lblNewLabel_1_1.setForeground(Color.BLACK);
-		lblNewLabel_1_1.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
-		lblNewLabel_1_1.setBounds(590, 180, 144, 35);
-		getContentPane().add(lblNewLabel_1_1);
+		JLabel transactionID = new JLabel("PTIN556TUR");
+		transactionID.setForeground(Color.BLACK);
+		transactionID.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
+		transactionID.setBounds(590, 180, 144, 35);
+		getContentPane().add(transactionID);
 		
 		JLabel lblNewLabel_1_1_1 = new JLabel("17A");
 		lblNewLabel_1_1_1.setForeground(Color.BLACK);
@@ -169,11 +172,11 @@ public class TIcket_Details extends JFrame {
 		lblNewLabel_1_1_1_1.setBounds(590, 291, 144, 31);
 		getContentPane().add(lblNewLabel_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_1_1_1 = new JLabel("JHW49K");
-		lblNewLabel_1_1_1_1_1.setForeground(Color.BLACK);
-		lblNewLabel_1_1_1_1_1.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
-		lblNewLabel_1_1_1_1_1.setBounds(590, 340, 144, 40);
-		getContentPane().add(lblNewLabel_1_1_1_1_1);
+		JLabel trainNumber = new JLabel(TIcket_Details.trainNumberValue);
+		trainNumber.setForeground(Color.BLACK);
+		trainNumber.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
+		trainNumber.setBounds(590, 340, 144, 40);
+		getContentPane().add(trainNumber);
 		
 		JLabel lblNewLabel_1_1_1_1_1_1 = new JLabel("04/05/21 - 11:30 AM");
 		lblNewLabel_1_1_1_1_1_1.setForeground(Color.BLACK);
@@ -181,17 +184,17 @@ public class TIcket_Details extends JFrame {
 		lblNewLabel_1_1_1_1_1_1.setBounds(590, 384, 194, 40);
 		getContentPane().add(lblNewLabel_1_1_1_1_1_1);
 		
-		JLabel lblNewLabel_1_1_1_1_1_1_1 = new JLabel("Coimbatore");
-		lblNewLabel_1_1_1_1_1_1_1.setForeground(Color.BLACK);
-		lblNewLabel_1_1_1_1_1_1_1.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
-		lblNewLabel_1_1_1_1_1_1_1.setBounds(590, 438, 194, 40);
-		getContentPane().add(lblNewLabel_1_1_1_1_1_1_1);
+		JLabel source = new JLabel(TIcket_Details.sourceLocation);
+		source.setForeground(Color.BLACK);
+		source.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
+		source.setBounds(590, 438, 194, 40);
+		getContentPane().add(source);
 		
-		JLabel lblNewLabel_1_1_1_1_1_1_1_1 = new JLabel("Chennai");
-		lblNewLabel_1_1_1_1_1_1_1_1.setForeground(Color.BLACK);
-		lblNewLabel_1_1_1_1_1_1_1_1.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
-		lblNewLabel_1_1_1_1_1_1_1_1.setBounds(590, 497, 194, 31);
-		getContentPane().add(lblNewLabel_1_1_1_1_1_1_1_1);
+		JLabel destination = new JLabel(TIcket_Details.destinationLocation);
+		destination.setForeground(Color.BLACK);
+		destination.setFont(new Font("Yu Gothic", Font.PLAIN, 19));
+		destination.setBounds(590, 497, 194, 31);
+		getContentPane().add(destination);
 		
 		table = new JTable();
 		table.setBounds(231, 524, 611, -420);

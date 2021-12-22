@@ -242,8 +242,8 @@ public class Create_Account extends JFrame {
 					if (canCreateAccount) {
 						TIcket_Details.emailID = email;
 						TIcket_Details.name = nameText;
-						TIcket_Details td = new TIcket_Details();
-						td.setVisible(true);
+						SearchTrains st = new SearchTrains();
+						st.setVisible(true);
 						setVisible(false);
 					}
 				}
