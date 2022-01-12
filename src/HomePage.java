@@ -177,17 +177,26 @@ public class HomePage extends JFrame {
 					if (index != -1 && canSignIn) {
 
 						// see if there is ticket
+						int passenger_index = -1;
 						for (int i = 0; i < App.passengers.size(); i++) {
 							System.out.println(App.passengers.get(i).Email_ID);
 							if (email.equals(App.passengers.get(i).Email_ID)) {
-								ticket_index = i;
+								passenger_index = i;
+								for (int j = 0; j < App.tickets.size(); j++) {
+									if (App.passengers.get(i).Ticket_Number == App.tickets.get(j).Ticket_Number) {
+										ticket_index = j;
+									}
+								}
 							}
 						}
 						
+						
 						System.out.println("Ticket index : " + ticket_index);
 						
+						
+			
 						if (ticket_index != -1) {
-							Ticket_Details td = new Ticket_Details(index, ticket_index);
+							Ticket_Details td = new Ticket_Details(ticket_index);
 							td.setVisible(true);
 							setVisible(false);
 						} else {

@@ -60,7 +60,7 @@ public class NetBankingPage extends JFrame {
 		return matcher.matches();
 	}
 
-	public NetBankingPage(int transactionNumber) {
+	public NetBankingPage(int transactionNumber, int passengerID) {
 		setSize(1000, 600);
 		setResizable(false);
 		// setIconImage(Toolkit.getDefaultToolkit()
@@ -154,7 +154,7 @@ public class NetBankingPage extends JFrame {
 					Ticket_Details.destinationLocation = destination[index];
 					Ticket_Details.sourceLocation = source[index];
 					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
+					Ticket_Details td = new Ticket_Details(passengerID);
 					td.setVisible(true);
 					setVisible(false);
 				}

@@ -276,6 +276,13 @@ public class Create_Account extends JFrame {
 						try {
 							App.create_user(email, passwordConfirm, nameText, dt, genderText, ph_no);
 							App.has_logged_in = true;
+							// get user index
+							for (int i = 0; i < App.users.size(); i++) {
+								if (App.users.get(i).Email_ID.equals(email)) {
+									App.user_index = i;
+								}
+							}
+							
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();

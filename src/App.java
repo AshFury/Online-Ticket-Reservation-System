@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.function.LongToIntFunction;
 
 import com.mysql.cj.xdevapi.AddResultImpl;
 
@@ -88,6 +89,27 @@ public class App {
 		App.upis.add(upi);
 		
 		String add_record = "INSERT INTO UPI VALUES(" + phone_number + ", '" + wallet_type + "', " + transaction_number + ");";
+		st.execute(add_record);
+	}
+	
+	public static void create_ticket(int ticket_number, int transaction_id, String coach_number, int seat_number, int train_number, Date travel_date) throws Exception {
+		ticket_number = (int)ticket_number;
+		Ticket ticket = new Ticket(ticket_number, transaction_id, coach_number, seat_number, train_number, travel_date);
+		App.tickets.add(ticket);
+		
+		//System.out.println(travel_date);
+		String add_record = "INSERT INTO Ticket VALUES(" + (short)ticket_number + ", " + transaction_id + ", '" + coach_number + "', " + (short)seat_number + ", " + (int)train_number + ", '" + travel_date + "');";
+		System.out.println(add_record);
+		st.execute(add_record);
+	}
+	/*String Passenger_ID, long PNR_Number, long Ticket_Number, String Email_ID, long Phone_Number, 
+				String Gender, String Class_Type, String Birth_Preference, String Special_Needs*/
+	public static void create_passenger(String passenger_id, long pnr_number, long ticket_number, String email_id, long phone_number, String gender, String class_type,
+			String birth_preference, String special_needs) throws Exception {
+		Passenger p = new Passenger(passenger_id, pnr_number, ticket_number, email_id, phone_number, gender, class_type, birth_preference, special_needs);
+		App.passengers.add(p);
+		
+		String add_record = "INSERT INTO Passenger VALUES(" + passenger_id + ", " + pnr_number  + ", " + ticket_number + ", '" + email_id + "', " + phone_number + ", '"+ gender + "', '" + class_type + "', '"+ birth_preference + "', '" + special_needs + "');";
 		st.execute(add_record);
 	}
 	

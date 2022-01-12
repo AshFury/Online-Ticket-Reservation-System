@@ -24,10 +24,11 @@ import java.util.regex.Pattern;
 import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
+
 public class BookTicket extends JFrame {
 	private JTextField destinationLocation;
 	private JTextField sourceLocation;
-
+	public static int ticket_number = 0;
 	/**
 	 * Launch the application.
 	 */
@@ -48,7 +49,11 @@ public class BookTicket extends JFrame {
 	 * Create the frame.
 	 */
 
+	public static int passenger_index = 0;
+	public static int ticket_index = 0;
+	
 		public int index = 0;
+	private JTextField special_needs;
 	public static boolean isValid(String email) {
 		String emailFormate = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\."
 				+ "[a-zA-Z0-9_!#$%&'+/=?`{|}~^-]+)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
@@ -90,27 +95,27 @@ public class BookTicket extends JFrame {
 
 		JLabel lblNewLabel_3 = new JLabel("Source");
 		lblNewLabel_3.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_3.setBounds(281, 233, 182, 50);
+		lblNewLabel_3.setBounds(281, 227, 182, 50);
 		getContentPane().add(lblNewLabel_3);
 
 		JLabel lblNewLabel_2_1_1 = new JLabel("Destination");
 		lblNewLabel_2_1_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1_1.setBounds(281, 286, 106, 44);
+		lblNewLabel_2_1_1.setBounds(281, 280, 106, 44);
 		getContentPane().add(lblNewLabel_2_1_1);
 
 		JLabel lblNewLabel_2_1_1_1 = new JLabel("Class Type");
 		lblNewLabel_2_1_1_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1_1_1.setBounds(281, 340, 144, 44);
+		lblNewLabel_2_1_1_1.setBounds(281, 334, 144, 44);
 		getContentPane().add(lblNewLabel_2_1_1_1);
 
 		JLabel lblNewLabel_2_1_1_1_1 = new JLabel("Payment Method");
 		lblNewLabel_2_1_1_1_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1_1_1_1.setBounds(281, 394, 144, 44);
+		lblNewLabel_2_1_1_1_1.setBounds(281, 380, 144, 44);
 		getContentPane().add(lblNewLabel_2_1_1_1_1);
 
 		destinationLocation = new JTextField();
 		destinationLocation.setColumns(10);
-		destinationLocation.setBounds(500, 298, 176, 27);
+		destinationLocation.setBounds(500, 292, 176, 27);
 		getContentPane().add(destinationLocation);
 
 		String classTypeOptions[] = { "AC First Class", "Second Class", "Third Class" };
@@ -118,13 +123,13 @@ public class BookTicket extends JFrame {
 		@SuppressWarnings("unchecked")
 		JComboBox classTypes = new JComboBox(classTypeOptions);
 		classTypes.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
-		classTypes.setBounds(500, 349, 115, 27);
+		classTypes.setBounds(500, 343, 115, 27);
 		getContentPane().add(classTypes);
 
 		String paymentMethodOptions[] = { "Net Banking", "Card (Credit / Debit)", "UPI" };
 		JComboBox paymentsMethod = new JComboBox(paymentMethodOptions);
 		paymentsMethod.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
-		paymentsMethod.setBounds(500, 406, 115, 27);
+		paymentsMethod.setBounds(500, 392, 115, 27);
 		getContentPane().add(paymentsMethod);
 
 		String destination[] = { "Vasco Da Gama", "Bangalore Cy Junction", "Pune Junction", "Howrah Junction",
@@ -147,21 +152,40 @@ public class BookTicket extends JFrame {
 		}
 		// selected index
 		
-		JComboBox ticketNumber = new JComboBox(ticketNumbers);
-		ticketNumber.setBounds(500, 144, 115, 21);
-		getContentPane().add(ticketNumber);
+		JComboBox trainNumber = new JComboBox(ticketNumbers);
+		trainNumber.setBounds(500, 144, 115, 21);
+		getContentPane().add(trainNumber);
 
-		ticketNumber.addActionListener(new ActionListener() {
+		trainNumber.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int index = ticketNumber.getSelectedIndex();
+				int index = trainNumber.getSelectedIndex();
 				sourceLocation.setText(source[index]);
 				destinationLocation.setText(destination[index]);
 			}
 		});
 
+		
+		special_needs = new JTextField();
+		special_needs.setColumns(10);
+		special_needs.setBounds(500, 441, 176, 27);
+		getContentPane().add(special_needs);
+		
+		JLabel lblNewLabel_2_1_1_2 = new JLabel("Special Needs");
+		lblNewLabel_2_1_1_2.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
+		lblNewLabel_2_1_1_2.setBounds(281, 429, 106, 44);
+		getContentPane().add(lblNewLabel_2_1_1_2);
+		
 		JButton makePayment = new JButton("Make Payment");
 		makePayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+				Date travel_date = new Date(0, 0, 0);
+				for (int i = 0; i < App.trains.size(); i++) {
+					if (String.valueOf(App.trains.get(i).Train_Number).equals(trainNumber.getSelectedItem())) {
+						travel_date = Date.valueOf(App.trains.get(i).Arrival_Time.toLocalDateTime().toLocalDate());
+						System.out.println(travel_date);
+					}
+				}
 				
 				if (paymentsMethod.getSelectedIndex() == 2) {
 					Random rand = new Random();
@@ -170,13 +194,44 @@ public class BookTicket extends JFrame {
 						val *= -1;
 					}
 					
+					int passenger_id = rand.nextInt();
+					if (passenger_id < 0) {
+						passenger_id *= -1;
+					}
+					
+					int ticket_number = rand.nextInt();
+					if (ticket_number < 0) {
+						ticket_number *= -1;
+					}
+					
+					int pnr_number = rand.nextInt();
+					if (pnr_number < 0) {
+						pnr_number *= -1;
+					}
+					
+					// get phone number from passenger list
+					String phone_number = "";
+					for (int i = 0; i < App.logins.size(); i++) {
+						if (App.logins.get(i).Email_ID.equals(App.users.get(App.user_index).Email_ID)) {
+							phone_number = String.valueOf(App.logins.get(i).Phone_Number);
+						}
+					}
+					
 					try {
 						App.create_payment(val, "UPI", 500, new Timestamp(System.currentTimeMillis()), "Success");
+						
+						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						
+						
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+								App.users.get(App.user_index).Email_ID, 
+								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
-					UPIPage upiPage = new UPIPage(val);
+					UPIPage upiPage = new UPIPage(val, passenger_id);
 					upiPage.setVisible(true);
 					setVisible(false);
 				}
@@ -188,14 +243,47 @@ public class BookTicket extends JFrame {
 					}
 					
 					
+			
+					int passenger_id = rand.nextInt();
+					if (passenger_id < 0) {
+						passenger_id *= -1;
+					}
+					
+					int ticket_number = rand.nextInt();
+					if (ticket_number < 0) {
+						ticket_number *= -1;
+					}
+					
+					int pnr_number = rand.nextInt();
+					if (pnr_number < 0) {
+						pnr_number *= -1;
+					}
+					
+					// get phone number from passenger list
+					String phone_number = "";
+					for (int i = 0; i < App.logins.size(); i++) {
+						if (App.logins.get(i).Email_ID.equals(App.users.get(App.user_index).Email_ID)) {
+							phone_number = String.valueOf(App.logins.get(i).Phone_Number);
+						}
+					}
+					
+					
 					try {
 						App.create_payment(val, "Card Payment", 500, new Timestamp(System.currentTimeMillis()), "Success");
+						
+						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						
+						
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+								App.users.get(App.user_index).Email_ID, 
+								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
-					CardPage cp = new CardPage(val);
+					CardPage cp = new CardPage(val, passenger_id);
 					cp.setVisible(true);
 					setVisible(false);
 				}
@@ -206,26 +294,49 @@ public class BookTicket extends JFrame {
 						val *= -1;
 					}
 					
+					int passenger_id = rand.nextInt();
+					if (passenger_id < 0) {
+						passenger_id *= -1;
+					}
+					
+					int ticket_number = rand.nextInt();
+					if (ticket_number < 0) {
+						ticket_number *= -1;
+					}
+					
+					int pnr_number = rand.nextInt();
+					if (pnr_number < 0) {
+						pnr_number *= -1;
+					}
+					
+					// get phone number from passenger list
+					String phone_number = "";
+					for (int i = 0; i < App.logins.size(); i++) {
+						if (App.logins.get(i).Email_ID.equals(App.users.get(App.user_index).Email_ID)) {
+							phone_number = String.valueOf(App.logins.get(i).Phone_Number);
+						}
+					}
+					
 					try {
 						App.create_payment(val, "Net Banking", 500, new Timestamp(System.currentTimeMillis()), "Success");
+						
+						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+								App.users.get(App.user_index).Email_ID, 
+								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
+						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
-					NetBankingPage nbp = new NetBankingPage(val);
+					NetBankingPage nbp = new NetBankingPage(val, passenger_id);
 					nbp.setVisible(true);
 					setVisible(false);
 				}
 				
-				if (makePayment.getText() == "Confirm Booking") {
-					Ticket_Details.destinationLocation = destination[index];
-					Ticket_Details.sourceLocation = source[index];
-					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
-					td.setVisible(true);
-					setVisible(false);
-				}
+			
 				
 				
 				System.out.println("Make payment");
@@ -237,18 +348,19 @@ public class BookTicket extends JFrame {
 
 		sourceLocation = new JTextField();
 		sourceLocation.setColumns(10);
-		sourceLocation.setBounds(500, 248, 176, 27);
+		sourceLocation.setBounds(500, 242, 176, 27);
 		getContentPane().add(sourceLocation);
 		
-		JLabel Fare = new JLabel("Source");
+		JLabel Fare = new JLabel("Fare");
 		Fare.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		Fare.setBounds(281, 183, 182, 50);
+		Fare.setBounds(281, 175, 182, 50);
 		getContentPane().add(Fare);
 		
 		JLabel lblNewLabel_1 = new JLabel("300 Rupees");
 		lblNewLabel_1.setFont(new Font("Yu Gothic UI Semibold", Font.PLAIN, 15));
-		lblNewLabel_1.setBounds(500, 192, 87, 33);
+		lblNewLabel_1.setBounds(500, 184, 87, 33);
 		getContentPane().add(lblNewLabel_1);
+	
 
 	}
 }

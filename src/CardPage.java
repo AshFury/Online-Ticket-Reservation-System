@@ -61,7 +61,7 @@ public class CardPage extends JFrame {
 		return matcher.matches();
 	}
 
-	public CardPage(int transactionNumber) {
+	public CardPage(int transactionNumber, int passenger_id) {
 		setSize(1000, 600);
 		setResizable(false);
 		// setIconImage(Toolkit.getDefaultToolkit()
@@ -165,7 +165,7 @@ public class CardPage extends JFrame {
 					Ticket_Details.destinationLocation = destination[index];
 					Ticket_Details.sourceLocation = source[index];
 					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
+					Ticket_Details td = new Ticket_Details(passenger_id);
 					td.setVisible(true);
 					setVisible(false);
 				}

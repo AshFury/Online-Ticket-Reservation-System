@@ -24,7 +24,7 @@ import javax.swing.JComboBox;
 
 public class UPIPage extends JFrame {
 	private JTextField transcationNumber;
-	private JTextField sourceLocation;
+	private JTextField walletTypeField;
 
 	/**
 	 * Launch the application.
@@ -60,7 +60,7 @@ public class UPIPage extends JFrame {
 		return matcher.matches();
 	}
 
-	public UPIPage(int transactionNumber) {
+	public UPIPage(int transactionNumber, int passenger_id) {
 		setSize(1000, 600);
 		setResizable(false);
 		// setIconImage(Toolkit.getDefaultToolkit()
@@ -98,6 +98,7 @@ public class UPIPage extends JFrame {
 		getContentPane().add(lblNewLabel_2_1_1);
 
 		transcationNumber = new JTextField(transactionNumber);
+		transcationNumber.setText(String.valueOf(transactionNumber));
 		transcationNumber.setColumns(10);
 		transcationNumber.setBounds(499, 312, 176, 27);
 		getContentPane().add(transcationNumber);
@@ -130,10 +131,20 @@ public class UPIPage extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (makePayment.getText() == "Confirm Booking") {
+					
+					try {
+						App.create_upi(Long.valueOf(phoneNumberField.getText()), walletTypeField.getText(), transactionNumber);
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					Ticket_Details.destinationLocation = destination[index];
 					Ticket_Details.sourceLocation = source[index];
 					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
+					Ticket_Details td = new Ticket_Details(passenger_id);
 					td.setVisible(true);
 					setVisible(false);
 				}
@@ -155,10 +166,10 @@ public class UPIPage extends JFrame {
 		makePayment.setBounds(371, 404, 176, 36);
 		getContentPane().add(makePayment);
 
-		sourceLocation = new JTextField();
-		sourceLocation.setColumns(10);
-		sourceLocation.setBounds(499, 255, 176, 27);
-		getContentPane().add(sourceLocation);
+		walletTypeField = new JTextField();
+		walletTypeField.setColumns(10);
+		walletTypeField.setBounds(499, 255, 176, 27);
+		getContentPane().add(walletTypeField);
 		
 		phoneNumberField = new JTextField();
 		phoneNumberField.setColumns(10);
