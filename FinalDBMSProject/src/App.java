@@ -21,19 +21,39 @@ public class App {
 	public static ArrayList<UPI> upis = new ArrayList<UPI>();
 	public static ArrayList<Users> users = new ArrayList<Users>();
 
+	static Statement st;
+
 	public static void main(String args[]) throws Exception {
 
 		String url = "jdbc:mysql://127.0.0.1/reservation_system";
 		String username = "root";
 		String password = "admin@123";
 
-		String query = "select * from Users";
-
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		Connection con = DriverManager.getConnection(url, username, password);
-		Statement st = con.createStatement();
 
+		st = con.createStatement();
+		
 		App.read_data(st);
+		
+		HomePage hp = new HomePage();
+		hp.setVisible(true);
+	}
+	
+	public static  void create_user(String email, String password, String name, Date dob, String gender, String phoneNumber) throws Exception{
+		String[] str = name.split(" ");
+		Users users = new Users(email, str[0], str[1], dob, gender);
+		App.users.add(users);
+		
+		Login l = new Login(email, Long.valueOf(phoneNumber), password);
+		App.logins.add(l);
+		
+		String new_user = "INSERT INTO Users VALUES('" + email + "', '" + str[0]  + "', '" + str[1] + "', '" + dob.toString() + "', '" +   gender + "');";
+		String new_login = "INSERT INTO Login VALUES('" + email + "', '" + phoneNumber + "', '" + password  + "');";
+		System.out.println(new_user);
+		
+		st.execute(new_user);
+		st.execute(new_login);
 	}
 
 	public static void read_data(Statement st) throws Exception {
