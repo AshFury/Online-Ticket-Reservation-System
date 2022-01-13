@@ -48,7 +48,7 @@ public class Ticket_Details extends JFrame {
 	public static String emailID;
 	public static String name;
 	
-	public Ticket_Details(int passenger_index, int ticket_index) {
+	public Ticket_Details(int passenger_id) {
 		getContentPane().setFont(new Font("Yu Gothic", Font.PLAIN, 19));
 		getContentPane().setForeground(Color.WHITE);
 		setSize(1000, 600);
@@ -89,11 +89,40 @@ public class Ticket_Details extends JFrame {
 		lblNewLabel_4.setIcon(new ImageIcon(this.getClass().getResource("/images/person-photo.png")));
 	//	lblNewLabel_4.setIcon(new ImageIcon("C:\\Users\\Tarun R\\eclipse-workspace\\ReservationSystem\\images\\generic-headshot-854256.png"));
 		
+		System.out.println("passenger id : " + passenger_id);
+		
+		int passenger_index = -1;
+		int ticket_index = -1;
+		System.out.println("Searching for :" + passenger_id);
+		for (int i = 0; i < App.passengers.size(); i++) {
+			System.out.println("passenger ids : " + App.passengers.get(i).Passenger_ID);
+			if (App.passengers.get(i).Passenger_ID.equals(String.valueOf(passenger_id))) {
+				passenger_index = i;
+			}
+		}
+	
+		
 		// find user with same email as passenger id
 		String name_str = "";
-		for (int i = 0; i < App.users.size(); i++) {
-			if (App.passengers.get(passenger_index).Email_ID.equals(App.users.get(i).Email_ID)) {
-				name_str = App.users.get(i).First_Name.concat(App.users.get(i).Last_Name);
+		for (int i = 0; i < App.passengers.size(); i++) {
+			if (App.passengers.get(i).Passenger_ID.equals(String.valueOf(passenger_id))) {
+				passenger_index = i;
+				System.out.println("Passenger match found at index : " + i);
+				for (int j = 0; j < App.users.size(); j++) {
+				if (App.passengers.get(i).Email_ID.equals(App.users.get(j).Email_ID)) {
+					name_str = App.users.get(j).First_Name.concat(App.users.get(j).Last_Name);
+				}
+			}
+			}
+		
+		}
+		
+		System.out.println("Searching for ticket");
+		for (int i = 0; i < App.tickets.size(); i++) {
+			System.out.println("Searching for : " + App.tickets.get(i).Ticket_Number + " " + App.passengers.get(passenger_index).Ticket_Number);
+			if (App.tickets.get(i).Ticket_Number == App.passengers.get(passenger_index).Ticket_Number) {
+				
+				ticket_index = i;
 			}
 		}
 		

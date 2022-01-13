@@ -1,5 +1,6 @@
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.function.LongToIntFunction;
 
 import com.mysql.cj.xdevapi.AddResultImpl;
 
@@ -22,7 +23,10 @@ public class App {
 	public static ArrayList<Users> users = new ArrayList<Users>();
 
 	static Statement st;
-
+	static int user_index = -1;
+	
+	static Boolean has_logged_in = false;
+	
 	public static void main(String args[]) throws Exception {
 
 		String url = "jdbc:mysql://127.0.0.1/reservation_system";
@@ -56,6 +60,61 @@ public class App {
 		st.execute(new_login);
 	}
 
+	public static void create_payment(long transaction_id, String payment_method, int fare, Timestamp dob, String status) throws Exception{
+		Payment payment = new Payment(transaction_id, payment_method, fare, dob, status);
+		App.payments.add(payment);
+		String add_record = "INSERT INTO Payment VALUES(" + transaction_id + ", '" + payment_method + "'," + fare + ", '" + dob + "','Successful');";
+		
+		st.execute(add_record);
+	}
+	
+	public static void create_netbanking(int account_number, String bank_name, long transaction_id) throws Exception{
+		account_number = (int)account_number;
+		Net_Banking nb = new Net_Banking(account_number, bank_name, transaction_id);
+		App.net_bankings.add(nb);
+		
+		String add_record = "INSERT INTO Net_Banking VALUES(" + (int)account_number + ", '" + bank_name + "', " + transaction_id + ");";
+		st.execute(add_record);
+	}
+	
+	public static void create_card(long card_number, String account_holder_name, String type, long transaction_number) throws Exception {
+		Card ca = new Card(card_number, account_holder_name, type, transaction_number);
+		App.cards.add(ca);
+		
+		String add_record = "INSERT INTO Card VALUES('" + card_number + "', '" + account_holder_name + "', '" + type + "', " + transaction_number + ");";
+		st.execute(add_record);
+	}
+	
+	public static void create_upi(long phone_number, String wallet_type, long transaction_number) throws Exception {
+		UPI upi = new UPI(phone_number, wallet_type, transaction_number);
+		App.upis.add(upi);
+		
+		String add_record = "INSERT INTO UPI VALUES(" + phone_number + ", '" + wallet_type + "', " + transaction_number + ");";
+		st.execute(add_record);
+	}
+	
+	public static void create_ticket(int ticket_number, int transaction_id, String coach_number, int seat_number, int train_number, Date travel_date) throws Exception {
+		Ticket ticket = new Ticket(ticket_number, transaction_id, coach_number, seat_number, train_number, travel_date);
+		App.tickets.add(ticket);
+		
+		//System.out.println(travel_date);
+		String add_record = "INSERT INTO Ticket VALUES(" + (short)ticket_number + ", " + transaction_id + ", '" + coach_number + "', " + (short)seat_number + ", " + (int)train_number + ", '" + travel_date + "');";
+		System.out.println(add_record);
+		st.execute(add_record);
+	}
+	/*String Passenger_ID, long PNR_Number, long Ticket_Number, String Email_ID, long Phone_Number, 
+				String Gender, String Class_Type, String Birth_Preference, String Special_Needs*/
+	public static void create_passenger(String passenger_id, long pnr_number, int ticket_number, String email_id, long phone_number, String gender, String class_type,
+			String birth_preference, String special_needs) throws Exception {
+	
+		Passenger p = new Passenger(passenger_id, pnr_number, ticket_number, email_id, phone_number, gender, class_type, birth_preference, special_needs);
+		App.passengers.add(p);
+		
+		String add_record = "INSERT INTO Passenger VALUES('" + passenger_id + "', " + pnr_number  + ", " + ticket_number + ", '" + email_id + "', " + phone_number + ", '"+ gender + "', '" + class_type + "', '"+ birth_preference + "', '" + special_needs + "');";
+		System.out.println(add_record);
+		st.execute(add_record);
+	}
+	
 	public static void read_data(Statement st) throws Exception {
 		String query = "select * from Admin_Roles";
 
@@ -184,7 +243,7 @@ public class App {
 			Timestamp t = rs.getTimestamp(4);
 			String booking_status = rs.getString(5);
 
-			Payment p = new Payment(id, id, mode, fare, t, booking_status);
+			Payment p = new Payment(id,  mode, fare, t, booking_status);
 			App.payments.add(p);
 		}
 

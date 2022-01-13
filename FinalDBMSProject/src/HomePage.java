@@ -149,12 +149,21 @@ public class HomePage extends JFrame {
 							if (App.logins.get(i).Password.equals(password)) {
 								passwordIsValid = true;
 								index = i;
+								App.has_logged_in = true;
+								// get the user data
+								for (int j = 0; j < App.users.size(); j++) {
+									if (App.logins.get(index).Email_ID.equals(App.users.get(j).Email_ID)) {
+										App.user_index = j;
+										System.out.println("Current user index : " + App.user_index);
+									}
+								}
 							}
 						}
 					}
-
+						
 					if (emailIsValid && passwordIsValid) {
 						canSignIn = true;
+						// find the current user
 					} else {
 						// emailID.setBorder(new LineBorder(Color.RED, 2));
 						emailID.setForeground(Color.RED);
@@ -163,22 +172,46 @@ public class HomePage extends JFrame {
 						passwordField.setBorder(new LineBorder(Color.RED));
 					}
 
+					if (canSignIn) {
+						for (int i = 0; i < App.system_admins.size(); i++) {
+							if (App.system_admins.get(i).Email_ID.equals(email)) {
+								AdminControlpage acp = new AdminControlpage();
+								acp.setVisible(true);
+								setVisible(false);
+								return;
+							}
+						}
+					}
+					String passenger_id = new String();
 					int ticket_index = -1;
 					signinButtonClicked = true;
 					if (index != -1 && canSignIn) {
 
 						// see if there is ticket
+						int passenger_index = -1;
 						for (int i = 0; i < App.passengers.size(); i++) {
 							System.out.println(App.passengers.get(i).Email_ID);
 							if (email.equals(App.passengers.get(i).Email_ID)) {
-								ticket_index = i;
+								passenger_id = App.passengers.get(i).Passenger_ID;
+								passenger_index = i;
+								System.out.println("Passenger index : " + passenger_index);
+								for (int j = 0; j < App.tickets.size(); j++) {
+									System.out.println("Tickets : " + App.tickets.get(j).Ticket_Number + " and to search for : " + App.passengers.get(i).Ticket_Number);
+									if (App.passengers.get(i).Ticket_Number == App.tickets.get(j).Ticket_Number) {
+										System.out.println("Ticket index : " + ticket_index);
+										ticket_index = j;
+									}
+								}
 							}
 						}
 						
+						
 						System.out.println("Ticket index : " + ticket_index);
 						
-						if (ticket_index != -1) {
-							Ticket_Details td = new Ticket_Details(index, ticket_index);
+						
+			
+						if (!passenger_id.equals("")) {
+							Ticket_Details td = new Ticket_Details(Integer.parseInt(passenger_id));
 							td.setVisible(true);
 							setVisible(false);
 						} else {

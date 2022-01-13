@@ -116,37 +116,8 @@ public class SearchTrains extends JFrame {
 		table.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
 		table.setCellSelectionEnabled(true);
 		table.setRowHeight(29);
-		table.setVisible(false);
+		table.setVisible(true);
 		
-		DocumentListener dl = new DocumentListener() {
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-            
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-
-            protected void updateFieldState() {
-            	String searchQuery = searchQueryField.getText();
-        		if (!searchQuery.equals("")) {
-        			table.setVisible(true);
-        		}
-        		else {
-        			table.setVisible(false);
-        		}
-            }
-		};
-            
-		searchQueryField.getDocument().addDocumentListener(dl);
 		
 	
 		//tcm.getColumn(0).setPreferredWidth(25);	
@@ -161,17 +132,37 @@ public class SearchTrains extends JFrame {
 		
 		getContentPane().add(scrollPane);
 		
-		JButton bookTicket = new JButton("Book Ticket");
-		bookTicket.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				BookTicket bt = new BookTicket();
-				bt.setVisible(true);
-				setVisible(false);
-			}
-		});
-		bookTicket.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
-		bookTicket.setBounds(51, 134, 105, 21);
-		getContentPane().add(bookTicket);
+		
+		String text = "Go Back";
+		
+		if (App.has_logged_in == true) {
+			JButton bookTicket = new JButton("Book Ticket");
+			bookTicket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					BookTicket bt = new BookTicket();
+					bookTicket.setText("Book Ticket");
+					bt.setVisible(true);
+					setVisible(false);
+				}
+			});
+			bookTicket.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
+			bookTicket.setBounds(51, 134, 105, 21);
+			getContentPane().add(bookTicket);
+		}
+		else {
+			JButton bookTicket = new JButton("Go Back");
+			bookTicket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					HomePage hp = new HomePage();
+					hp.setVisible(true);
+					setVisible(false);
+				}
+			});
+			bookTicket.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
+			bookTicket.setBounds(51, 134, 105, 21);
+			getContentPane().add(bookTicket);
+		}
+	
 	
 	}
 }

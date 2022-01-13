@@ -23,7 +23,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JComboBox;
 
 public class CardPage extends JFrame {
-	private JTextField transcationNumber;
+	private JTextField cardType;
 
 	/**
 	 * Launch the application.
@@ -46,9 +46,9 @@ public class CardPage extends JFrame {
 	 */
 
 		public int index = 0;
-	private JTextField bankNameField;
-	private JTextField accountNumber;
-	private JTextField textField;
+	private JTextField cardNumber;
+	private JTextField accountHolderName;
+	private JTextField transactionNumberField;
 	public static boolean isValid(String email) {
 		String emailFormate = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\."
 				+ "[a-zA-Z0-9_!#$%&'+/=?`{|}~^-]+)@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$";
@@ -61,7 +61,7 @@ public class CardPage extends JFrame {
 		return matcher.matches();
 	}
 
-	public CardPage(int transactionNumber) {
+	public CardPage(int transactionNumber, int passenger_id) {
 		setSize(1000, 600);
 		setResizable(false);
 		// setIconImage(Toolkit.getDefaultToolkit()
@@ -93,10 +93,10 @@ public class CardPage extends JFrame {
 		lblNewLabel_2_1_1.setBounds(279, 269, 146, 44);
 		getContentPane().add(lblNewLabel_2_1_1);
 
-		transcationNumber = new JTextField(transactionNumber);
-		transcationNumber.setColumns(10);
-		transcationNumber.setBounds(498, 281, 176, 27);
-		getContentPane().add(transcationNumber);
+		cardType = new JTextField(transactionNumber);
+		cardType.setColumns(10);
+		cardType.setBounds(498, 281, 176, 27);
+		getContentPane().add(cardType);
 
 		String classTypeOptions[] = { "AC First Class", "Second Class", "Third Class" };
 
@@ -121,15 +121,51 @@ public class CardPage extends JFrame {
 			destination[i] = App.trains.get(i).Destination;
 		}
 
+		
+		cardNumber = new JTextField();
+		cardNumber.setColumns(10);
+		cardNumber.setBounds(498, 231, 176, 27);
+		getContentPane().add(cardNumber);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Card holder name");
+		lblNewLabel_2_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
+		lblNewLabel_2_1.setBounds(279, 157, 157, 44);
+		getContentPane().add(lblNewLabel_2_1);
+		
+		accountHolderName = new JTextField();
+		accountHolderName.setColumns(10);
+		accountHolderName.setBounds(498, 173, 176, 27);
+		getContentPane().add(accountHolderName);
+		
+		JLabel lblNewLabel_2_1_1_1 = new JLabel("Transaction Number");
+		
+		lblNewLabel_2_1_1_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
+		lblNewLabel_2_1_1_1.setBounds(279, 323, 146, 44);
+		getContentPane().add(lblNewLabel_2_1_1_1);
+		
+		transactionNumberField = new JTextField(10);
+		transactionNumberField.setBounds(498, 335, 176, 27);
+		transactionNumberField.setText(String.valueOf(transactionNumber));
+		getContentPane().add(transactionNumberField);
+		
 		JButton makePayment = new JButton("Confirm Booking");
 		makePayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (makePayment.getText() == "Confirm Booking") {
+					try {
+						App.create_card(Long.valueOf(cardNumber.getText()), accountHolderName.getText(), cardType.getText(), transactionNumber);
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					Ticket_Details.destinationLocation = destination[index];
 					Ticket_Details.sourceLocation = source[index];
 					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
+					Ticket_Details td = new Ticket_Details(passenger_id);
 					td.setVisible(true);
 					setVisible(false);
 				}
@@ -150,30 +186,7 @@ public class CardPage extends JFrame {
 		makePayment.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		makePayment.setBounds(371, 404, 176, 36);
 		getContentPane().add(makePayment);
-		
-		bankNameField = new JTextField();
-		bankNameField.setColumns(10);
-		bankNameField.setBounds(498, 231, 176, 27);
-		getContentPane().add(bankNameField);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Card holder name");
-		lblNewLabel_2_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1.setBounds(279, 157, 157, 44);
-		getContentPane().add(lblNewLabel_2_1);
-		
-		accountNumber = new JTextField();
-		accountNumber.setColumns(10);
-		accountNumber.setBounds(498, 173, 176, 27);
-		getContentPane().add(accountNumber);
-		
-		JLabel lblNewLabel_2_1_1_1 = new JLabel("Transaction Number");
-		lblNewLabel_2_1_1_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1_1_1.setBounds(279, 323, 146, 44);
-		getContentPane().add(lblNewLabel_2_1_1_1);
-		
-		textField = new JTextField(10);
-		textField.setBounds(498, 335, 176, 27);
-		getContentPane().add(textField);
+	
 
 	}
 }

@@ -60,7 +60,7 @@ public class NetBankingPage extends JFrame {
 		return matcher.matches();
 	}
 
-	public NetBankingPage(int transactionNumber) {
+	public NetBankingPage(int transactionNumber, int passengerID) {
 		setSize(1000, 600);
 		setResizable(false);
 		// setIconImage(Toolkit.getDefaultToolkit()
@@ -93,6 +93,7 @@ public class NetBankingPage extends JFrame {
 		getContentPane().add(lblNewLabel_2_1_1);
 
 		transcationNumber = new JTextField(transactionNumber);
+		transcationNumber.setText(String.valueOf(transactionNumber));
 		transcationNumber.setColumns(10);
 		transcationNumber.setBounds(499, 312, 176, 27);
 		getContentPane().add(transcationNumber);
@@ -120,15 +121,40 @@ public class NetBankingPage extends JFrame {
 			destination[i] = App.trains.get(i).Destination;
 		}
 
+		
+		bankNameField = new JTextField();
+		bankNameField.setColumns(10);
+		bankNameField.setBounds(499, 262, 176, 27);
+		getContentPane().add(bankNameField);
+		
+		JLabel lblNewLabel_2_1 = new JLabel("Account Number");
+		lblNewLabel_2_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
+		lblNewLabel_2_1.setBounds(280, 188, 146, 44);
+		getContentPane().add(lblNewLabel_2_1);
+		
+		accountNumber = new JTextField();
+		accountNumber.setColumns(10);
+		accountNumber.setBounds(499, 204, 176, 27);
+		
 		JButton makePayment = new JButton("Confirm Booking");
 		makePayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				if (makePayment.getText() == "Confirm Booking") {
+					try {
+						App.create_netbanking(Integer.parseInt(accountNumber.getText()), bankNameField.getText(), transactionNumber);
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (Exception e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					
 					Ticket_Details.destinationLocation = destination[index];
 					Ticket_Details.sourceLocation = source[index];
 					Ticket_Details.trainNumberValue = ticketNumbers[index];
-					Ticket_Details td = new Ticket_Details(-1, 1);
+					Ticket_Details td = new Ticket_Details(passengerID);
 					td.setVisible(true);
 					setVisible(false);
 				}
@@ -146,23 +172,11 @@ public class NetBankingPage extends JFrame {
 				System.out.println("Make payment");
 			}
 		});
+
 		makePayment.setFont(new Font("Yu Gothic UI", Font.PLAIN, 12));
 		makePayment.setBounds(371, 404, 176, 36);
 		getContentPane().add(makePayment);
 		
-		bankNameField = new JTextField();
-		bankNameField.setColumns(10);
-		bankNameField.setBounds(499, 262, 176, 27);
-		getContentPane().add(bankNameField);
-		
-		JLabel lblNewLabel_2_1 = new JLabel("Account Number");
-		lblNewLabel_2_1.setFont(new Font("Yu Gothic UI", Font.PLAIN, 15));
-		lblNewLabel_2_1.setBounds(280, 188, 146, 44);
-		getContentPane().add(lblNewLabel_2_1);
-		
-		accountNumber = new JTextField();
-		accountNumber.setColumns(10);
-		accountNumber.setBounds(499, 204, 176, 27);
 		getContentPane().add(accountNumber);
 
 	}
