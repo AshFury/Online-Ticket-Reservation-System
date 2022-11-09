@@ -25,27 +25,7 @@ import javax.swing.JComboBox;
 public class CardPage extends JFrame {
 	private JTextField cardType;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
-
-		public int index = 0;
+	public int index = 0;
 	private JTextField cardNumber;
 	private JTextField accountHolderName;
 	private JTextField transactionNumberField;
@@ -64,9 +44,7 @@ public class CardPage extends JFrame {
 	public CardPage(int transactionNumber, int passenger_id) {
 		setSize(1000, 600);
 		setResizable(false);
-		// setIconImage(Toolkit.getDefaultToolkit()
-		// .getImage("C:\\Users\\Tarun
-		// R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);

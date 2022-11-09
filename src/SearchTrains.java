@@ -31,30 +31,10 @@ public class SearchTrains extends JFrame {
 	private JTable table;
 	private JTable table_1;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 	public SearchTrains() {
 		setSize(1000, 600);
 		setResizable(false);
-		//setIconImage(Toolkit.getDefaultToolkit()
-			//	.getImage("C:\\Users\\Tarun R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -116,43 +96,8 @@ public class SearchTrains extends JFrame {
 		table.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
 		table.setCellSelectionEnabled(true);
 		table.setRowHeight(29);
-		table.setVisible(false);
+		table.setVisible(true);
 		
-		DocumentListener dl = new DocumentListener() {
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-            
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateFieldState();
-            }
-
-            protected void updateFieldState() {
-            	String searchQuery = searchQueryField.getText();
-        		if (!searchQuery.equals("")) {
-        			table.setVisible(true);
-        		}
-        		else {
-        			table.setVisible(false);
-        		}
-            }
-		};
-            
-		searchQueryField.getDocument().addDocumentListener(dl);
-		
-	
-		//tcm.getColumn(0).setPreferredWidth(25);	
-
-
-		//TableModel tableModel = new DefaultTableModel(data, columnNames);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);

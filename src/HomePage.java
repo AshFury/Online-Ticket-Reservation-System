@@ -54,8 +54,7 @@ public class HomePage extends JFrame {
 
 		setSize(1000, 600);
 		setResizable(false);
-		// setIconImage(Toolkit.getDefaultToolkit().getImage("C:\\Users\\Tarun
-		// R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -172,6 +171,17 @@ public class HomePage extends JFrame {
 						passwordField.setBorder(new LineBorder(Color.RED));
 					}
 
+					if (canSignIn) {
+						for (int i = 0; i < App.system_admins.size(); i++) {
+							if (App.system_admins.get(i).Email_ID.equals(email)) {
+								AdminControlpage acp = new AdminControlpage();
+								acp.setVisible(true);
+								setVisible(false);
+								return;
+							}
+						}
+					}
+					String passenger_id = new String();
 					int ticket_index = -1;
 					signinButtonClicked = true;
 					if (index != -1 && canSignIn) {
@@ -181,9 +191,13 @@ public class HomePage extends JFrame {
 						for (int i = 0; i < App.passengers.size(); i++) {
 							System.out.println(App.passengers.get(i).Email_ID);
 							if (email.equals(App.passengers.get(i).Email_ID)) {
+								passenger_id = App.passengers.get(i).Passenger_ID;
 								passenger_index = i;
+								System.out.println("Passenger index : " + passenger_index);
 								for (int j = 0; j < App.tickets.size(); j++) {
+									System.out.println("Tickets : " + App.tickets.get(j).Ticket_Number + " and to search for : " + App.passengers.get(i).Ticket_Number);
 									if (App.passengers.get(i).Ticket_Number == App.tickets.get(j).Ticket_Number) {
+										System.out.println("Ticket index : " + ticket_index);
 										ticket_index = j;
 									}
 								}
@@ -195,8 +209,8 @@ public class HomePage extends JFrame {
 						
 						
 			
-						if (ticket_index != -1) {
-							Ticket_Details td = new Ticket_Details(ticket_index);
+						if (!passenger_id.equals("")) {
+							Ticket_Details td = new Ticket_Details(Integer.parseInt(passenger_id));
 							td.setVisible(true);
 							setVisible(false);
 						} else {

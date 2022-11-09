@@ -25,27 +25,7 @@ import javax.swing.JComboBox;
 public class NetBankingPage extends JFrame {
 	private JTextField transcationNumber;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
-
-		public int index = 0;
+	public int index = 0;
 	private JTextField bankNameField;
 	private JTextField accountNumber;
 	public static boolean isValid(String email) {
@@ -63,9 +43,7 @@ public class NetBankingPage extends JFrame {
 	public NetBankingPage(int transactionNumber, int passengerID) {
 		setSize(1000, 600);
 		setResizable(false);
-		// setIconImage(Toolkit.getDefaultToolkit()
-		// .getImage("C:\\Users\\Tarun
-		// R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -142,12 +120,10 @@ public class NetBankingPage extends JFrame {
 				
 				if (makePayment.getText() == "Confirm Booking") {
 					try {
-						App.create_netbanking(Long.valueOf(accountNumber.getText()), bankNameField.getText(), transactionNumber);
+						App.create_netbanking(Integer.parseInt(accountNumber.getText()), bankNameField.getText(), transactionNumber);
 					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
 						e1.printStackTrace();
 					}
 					
@@ -160,7 +136,6 @@ public class NetBankingPage extends JFrame {
 				}
 				
 				makePayment.setText("Confirm Booking");
-				// makePayment.setVisible(false);
 				Random rand = new Random();
 				int val = rand.nextInt();
 				if (val < 0) {

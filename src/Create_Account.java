@@ -32,25 +32,6 @@ public class Create_Account extends JFrame {
 	private JTextField gender;
 	private JTextField phone_number;
 
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
 
 	public static boolean isValid(String email) {
 		String emailFormate = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\."
@@ -67,8 +48,7 @@ public class Create_Account extends JFrame {
 	public Create_Account() {
 		setSize(1000, 600);
 		setResizable(false);
-		//setIconImage(Toolkit.getDefaultToolkit()
-		//		.getImage("C:\\Users\\Tarun R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -121,8 +101,7 @@ public class Create_Account extends JFrame {
 
 		JLabel lblNewLabel_1 = new JLabel("");
 		lblNewLabel_1.setIcon(new ImageIcon(this.getClass().getResource("/images/person-photo.png")));
-		//lblNewLabel_1.setIcon(new ImageIcon(
-			//	"C:\\Users\\Tarun R\\eclipse-workspace\\ReservationSystem\\images\\generic-headshot-854256.png"));
+
 		lblNewLabel_1.setBounds(34, 140, 158, 157);
 		getContentPane().add(lblNewLabel_1);
 
@@ -267,7 +246,7 @@ public class Create_Account extends JFrame {
 
 					String ph_no = phone_number.getText();
 					@SuppressWarnings("deprecation")
-					Date dt = java.sql.Date.valueOf("2000-10-21");
+					Date dt = java.sql.Date.valueOf(dobText);
 					System.out.println(dt);
 					
 					

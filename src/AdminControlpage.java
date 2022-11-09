@@ -27,35 +27,20 @@ import javax.swing.event.DocumentListener;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class AdminControlpage extends JFrame {
-	private JTable table;
-	private JTable table_1;
-
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
+	
+	public static String[] column = null;
+	public static Object[][] rows = null;
+	
+	
 	public AdminControlpage() {
+		
 		setSize(1000, 600);
 		setResizable(false);
-		//setIconImage(Toolkit.getDefaultToolkit()
-			//	.getImage("C:\\Users\\Tarun R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -69,69 +54,142 @@ public class AdminControlpage extends JFrame {
 		JLabel lblNewLabel = new JLabel("Admin Control Page");
 		lblNewLabel.setForeground(new Color(0, 0, 0));
 		lblNewLabel.setFont(new Font("Yu Gothic UI Semibold", Font.BOLD, 29));
-		lblNewLabel.setBounds(372, 33, 529, 74);
+		lblNewLabel.setBounds(340, 33, 529, 74);
 		panel.add(lblNewLabel);
+
+		{
+			JButton bookTicket = new JButton("Home Page");
+			bookTicket.setBounds(31, 21, 105, 21);
+			panel.add(bookTicket);
+			bookTicket.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					HomePage bt = new HomePage();
+					bookTicket.setText("Home page");
+					bt.setVisible(true);
+					setVisible(false);
+				}
+			});
+			bookTicket.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
+		}
+
+		JComboBox comboBox = new JComboBox();
 		
-		JButton gotoHomePage = new JButton("Go back");
-		gotoHomePage.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
-		gotoHomePage.setBounds(36, 33, 105, 21);
-		panel.add(gotoHomePage);
+		comboBox.setModel(new DefaultComboBoxModel(new String[] { "Trains" , "Users", "Tickets", "Passengers"}));
+		comboBox.setBounds(43, 112, 112, 21);
+		getContentPane().add(comboBox);
+
+		String[] column = null;
+		Object[][] rows = null;
 		
-		JComboBox toggleView = new JComboBox();
-		toggleView.setModel(new DefaultComboBoxModel(new String[] {"Tickets", "User", "Trains"}));
-		toggleView.setMaximumRowCount(3);
-		toggleView.setBounds(32, 123, 74, 21);
-		getContentPane().add(toggleView);
+
+		AdminControlpage.column = new String[]{ "Ticket_number", "Transaction_ID", "Coach_Number", "Seat_Number", "Train_number",
+		"Travel_date" };
 		
-		int index = toggleView.getSelectedIndex();
-		
-		if (index == 1) {
-			String columnNames[] = {"Email_ID", "First_Name", "Last_Name", "Date_Of_Birth", "Gender"};
-			
-			String data[][] = new String[App.users.size()][5];
-			for (int i = 0; i < App.users.size(); i++) {
-				data[i][0] = App.users.get(i).Email_ID;
-				data[i][1] = App.users.get(i).First_Name;
-				data[i][2] = App.users.get(i).Last_Name;
-				data[i][3] = String.valueOf(App.users.get(i).Date_Of_Birth);
-				data[i][4] = App.users.get(i).Gender;
+		 AdminControlpage.rows = new Object[App.trains.size()][9];
+			for (int i = 0; i < App.trains.size(); i++) {
+				AdminControlpage.rows[i][0] = App.trains.get(i).Train_Number;
+				AdminControlpage.rows[i][1] = App.trains.get(i).Train_Name;
+				AdminControlpage.rows[i][2] = App.trains.get(i).Route_ID;
+				AdminControlpage.rows[i][3] = App.trains.get(i).Available_Seats;
+				AdminControlpage.rows[i][4] = App.trains.get(i).Source;
+				AdminControlpage.rows[i][5] = App.trains.get(i).Destination;
+				AdminControlpage.rows[i][6] = App.trains.get(i).Arrival_Time;
+				AdminControlpage.rows[i][7] = App.trains.get(i).Departure_Time;
+				AdminControlpage.rows[i][8] = App.trains.get(i).Train_Status;
 			}
 			
-			final JTable table = new JTable(data, columnNames);
-			table.setFillsViewportHeight(true);
-			table.setModel(new DefaultTableModel(
-				data,
-				columnNames
-			));
-			table.getColumnModel().getColumn(0).setPreferredWidth(48);
-			table.getColumnModel().getColumn(3).setPreferredWidth(58);
-			table.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
-			table.setCellSelectionEnabled(true);
-			table.setRowHeight(29);
-			table.setVisible(false);
+			final JTable table = new JTable(AdminControlpage.rows, AdminControlpage.column);
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("Action performned");
+				if (comboBox.getSelectedIndex() == 0) {
+					AdminControlpage.column = new String[]{ "Ticket_number", "Transaction_ID", "Coach_Number", "Available Seats", "Train_number",
+					"Travel_date" };
+					
+					 AdminControlpage.rows = new Object[App.trains.size()][9];
+						for (int i = 0; i < App.trains.size(); i++) {
+							AdminControlpage.rows[i][0] = App.trains.get(i).Train_Number;
+							AdminControlpage.rows[i][1] = App.trains.get(i).Train_Name;
+							AdminControlpage.rows[i][2] = App.trains.get(i).Route_ID;
+							AdminControlpage.rows[i][3] = App.trains.get(i).Available_Seats;
+							AdminControlpage.rows[i][4] = App.trains.get(i).Source;
+							AdminControlpage.rows[i][5] = App.trains.get(i).Destination;
+							AdminControlpage.rows[i][6] = App.trains.get(i).Arrival_Time;
+							AdminControlpage.rows[i][7] = App.trains.get(i).Departure_Time;
+							AdminControlpage.rows[i][8] = App.trains.get(i).Train_Status;
+						}
+				}
 
-		}
-		else if (index == 0) {
-			
-		}
-		else if (index == 2) {
-			
-		}
+				else if (comboBox.getSelectedIndex() == 1) {
+					AdminControlpage.column  = new String[]{ "Email_ID", "First_Name", "Last_name", "DOB", "Gender" };
+					
+					 AdminControlpage.rows = new Object[App.users.size()][5];
+						for (int i = 0; i < App.users.size(); i++) {
+							AdminControlpage.rows[i][0] = App.users.get(i).Email_ID;
+							AdminControlpage.rows[i][1] = App.users.get(i).First_Name;
+							AdminControlpage.rows[i][2] = App.users.get(i).Last_Name;
+							AdminControlpage.rows[i][3] = App.users.get(i).Date_Of_Birth;
+							AdminControlpage.rows[i][4] = App.users.get(i).Gender;
+						}
+				}
+				
+				else if (comboBox.getSelectedIndex() == 2) {
+					AdminControlpage.column  = new String[]{ "Ticket_Number", "Transaction_ID", "Coach_Number", "Seat Numbe", "Train_Number", "Travel_Date" };
+					
+					 AdminControlpage.rows = new Object[App.tickets.size()][6];
+						for (int i = 0; i < App.tickets.size(); i++) {
+							AdminControlpage.rows[i][0] = App.tickets.get(i).Ticket_Number;
+							AdminControlpage.rows[i][1] = App.tickets.get(i).Transaction_ID;
+							AdminControlpage.rows[i][2] = App.tickets.get(i).Coach_Number;
+							AdminControlpage.rows[i][3] = App.tickets.get(i).Seat_Number;
+							AdminControlpage.rows[i][4] = App.tickets.get(i).Train_Number;
+							AdminControlpage.rows[i][5] = App.tickets.get(i).Travel_Date;
+						}
+				}
+				
+				else if (comboBox.getSelectedIndex() == 3) {
+					AdminControlpage.column  = new String[]{ "Passenger_ID", "PNR_Number", "Ticket_Number", "Email_ID", "Phone_Number", "Gender", "Class_Type" ,"Birth_Preference", "Special_Needs"};
+					
+					AdminControlpage.rows = new Object[App.passengers.size()][9];
+						for (int i = 0; i < App.passengers.size(); i++) {
+							AdminControlpage.rows[i][0] = App.passengers.get(i).Passenger_ID;
+							AdminControlpage.rows[i][1] = App.passengers.get(i).PNR_Number;
+							AdminControlpage.rows[i][2] = App.passengers.get(i).Ticket_Number;
+							AdminControlpage.rows[i][3] = App.passengers.get(i).Email_ID;
+							AdminControlpage.rows[i][4] = App.passengers.get(i).Phone_Number;
+							AdminControlpage.rows[i][5] = App.passengers.get(i).Gender;
+							AdminControlpage.rows[i][6] = App.passengers.get(i).Class_Type;
+							AdminControlpage.rows[i][7] = App.passengers.get(i).Birth_Preference;
+							AdminControlpage.rows[i][8] = App.passengers.get(i).Special_Needs;
+							
+						}
+				}
+				
+				table.setModel(new DefaultTableModel(AdminControlpage.rows, AdminControlpage.column));
+			}
+		});
 		
-	
-		//tcm.getColumn(0).setPreferredWidth(25);	
 
+		table.setFillsViewportHeight(true);
+		table.setModel(new DefaultTableModel(AdminControlpage.rows, AdminControlpage.column));
+		table.getColumnModel().getColumn(0).setPreferredWidth(48);
+		table.getColumnModel().getColumn(3).setPreferredWidth(58);
+		table.setFont(new Font("Yu Gothic UI", Font.PLAIN, 10));
+		table.setCellSelectionEnabled(true);
+		table.setRowHeight(29);
+		table.setVisible(true);
 
-		//TableModel tableModel = new DefaultTableModel(data, columnNames);
+		// tcm.getColumn(0).setPreferredWidth(25);
+
+		// TableModel tableModel = new DefaultTableModel(data, columnNames);
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setViewportBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
-		scrollPane.setBounds(32, 154, 912, 374);
-		
-		
-		getContentPane().add(scrollPane);
-		
+		scrollPane.setBounds(43, 145, 901, 383);
 
-	
+		getContentPane().add(scrollPane);
+
+		String text = "Go Back";
+
 	}
 }

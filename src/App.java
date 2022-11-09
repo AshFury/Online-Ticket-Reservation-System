@@ -68,11 +68,12 @@ public class App {
 		st.execute(add_record);
 	}
 	
-	public static void create_netbanking(long account_number, String bank_name, long transaction_id) throws Exception{
+	public static void create_netbanking(int account_number, String bank_name, long transaction_id) throws Exception{
+		account_number = (int)account_number;
 		Net_Banking nb = new Net_Banking(account_number, bank_name, transaction_id);
 		App.net_bankings.add(nb);
 		
-		String add_record = "INSERT INTO Net_Banking VALUES(" + account_number + ", '" + bank_name + "', " + transaction_id + ");";
+		String add_record = "INSERT INTO Net_Banking VALUES(" + (int)account_number + ", '" + bank_name + "', " + transaction_id + ");";
 		st.execute(add_record);
 	}
 	
@@ -93,7 +94,6 @@ public class App {
 	}
 	
 	public static void create_ticket(int ticket_number, int transaction_id, String coach_number, int seat_number, int train_number, Date travel_date) throws Exception {
-		ticket_number = (int)ticket_number;
 		Ticket ticket = new Ticket(ticket_number, transaction_id, coach_number, seat_number, train_number, travel_date);
 		App.tickets.add(ticket);
 		
@@ -104,12 +104,14 @@ public class App {
 	}
 	/*String Passenger_ID, long PNR_Number, long Ticket_Number, String Email_ID, long Phone_Number, 
 				String Gender, String Class_Type, String Birth_Preference, String Special_Needs*/
-	public static void create_passenger(String passenger_id, long pnr_number, long ticket_number, String email_id, long phone_number, String gender, String class_type,
+	public static void create_passenger(String passenger_id, long pnr_number, int ticket_number, String email_id, long phone_number, String gender, String class_type,
 			String birth_preference, String special_needs) throws Exception {
+	
 		Passenger p = new Passenger(passenger_id, pnr_number, ticket_number, email_id, phone_number, gender, class_type, birth_preference, special_needs);
 		App.passengers.add(p);
 		
-		String add_record = "INSERT INTO Passenger VALUES(" + passenger_id + ", " + pnr_number  + ", " + ticket_number + ", '" + email_id + "', " + phone_number + ", '"+ gender + "', '" + class_type + "', '"+ birth_preference + "', '" + special_needs + "');";
+		String add_record = "INSERT INTO Passenger VALUES('" + passenger_id + "', " + pnr_number  + ", " + ticket_number + ", '" + email_id + "', " + phone_number + ", '"+ gender + "', '" + class_type + "', '"+ birth_preference + "', '" + special_needs + "');";
+		System.out.println(add_record);
 		st.execute(add_record);
 	}
 	

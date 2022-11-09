@@ -28,31 +28,12 @@ import javax.swing.JComboBox;
 public class BookTicket extends JFrame {
 	private JTextField destinationLocation;
 	private JTextField sourceLocation;
-	public static int ticket_number = 0;
-	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					Create_Account frame = new Create_Account();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-
-	/**
-	 * Create the frame.
-	 */
+	public static int ticket_number = 63;
 
 	public static int passenger_index = 0;
 	public static int ticket_index = 0;
 	
-		public int index = 0;
+	public int index = 0;
 	private JTextField special_needs;
 	public static boolean isValid(String email) {
 		String emailFormate = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^-]+(?:\\."
@@ -69,9 +50,7 @@ public class BookTicket extends JFrame {
 	public BookTicket() {
 		setSize(1000, 600);
 		setResizable(false);
-		// setIconImage(Toolkit.getDefaultToolkit()
-		// .getImage("C:\\Users\\Tarun
-		// R\\eclipse-workspace\\ReservationSystem\\images\\amrita_logo.png"));
+
 		setTitle("Online Ticket Reservation System");
 		getContentPane().setBackground(new Color(245, 245, 245));
 		getContentPane().setLayout(null);
@@ -175,6 +154,12 @@ public class BookTicket extends JFrame {
 		lblNewLabel_2_1_1_2.setBounds(281, 429, 106, 44);
 		getContentPane().add(lblNewLabel_2_1_1_2);
 		
+		Random random = new Random();   
+		BookTicket.ticket_number = (short)random.nextInt();
+		if (BookTicket.ticket_number < 0) {
+			BookTicket.ticket_number *= -1;
+		}
+		String class_type = String.valueOf((int)(Math.random() * (9) + 1));
 		JButton makePayment = new JButton("Make Payment");
 		makePayment.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -220,13 +205,12 @@ public class BookTicket extends JFrame {
 					try {
 						App.create_payment(val, "UPI", 500, new Timestamp(System.currentTimeMillis()), "Success");
 						
-						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						App.create_ticket((BookTicket.ticket_number), (val), class_type, (int)BookTicket.ticket_number / 20, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
 						
 						
-						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (BookTicket.ticket_number), 
 								App.users.get(App.user_index).Email_ID, 
 								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
-						
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -271,13 +255,13 @@ public class BookTicket extends JFrame {
 					try {
 						App.create_payment(val, "Card Payment", 500, new Timestamp(System.currentTimeMillis()), "Success");
 						
-						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						App.create_ticket((BookTicket.ticket_number), (val), class_type, (int)BookTicket.ticket_number / 20, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
 						
 						
-						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (BookTicket.ticket_number), 
 								App.users.get(App.user_index).Email_ID, 
 								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
-						
+						BookTicket.ticket_number++;
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -320,12 +304,12 @@ public class BookTicket extends JFrame {
 					try {
 						App.create_payment(val, "Net Banking", 500, new Timestamp(System.currentTimeMillis()), "Success");
 						
-						App.create_ticket((ticket_number), (val), "5", BookTicket.ticket_number++, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
+						App.create_ticket((BookTicket.ticket_number), (val), class_type, (int)BookTicket.ticket_number / 20, Integer.parseInt(String.valueOf(trainNumber.getSelectedItem())), travel_date);
 						
-						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (long)(ticket_number), 
+						App.create_passenger(String.valueOf(passenger_id), (long)(pnr_number), (int)(BookTicket.ticket_number), 
 								App.users.get(App.user_index).Email_ID, 
 								Long.valueOf(phone_number), App.users.get(App.user_index).Gender, (String)classTypes.getSelectedItem(), "", special_needs.getText());
-						
+						BookTicket.ticket_number++;
 					} catch (Exception e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
